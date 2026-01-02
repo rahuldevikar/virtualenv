@@ -38,6 +38,7 @@ To avoid confusion, it's best to think of them as the "rule" and the "hint".
 This flag sets the mandatory requirements for the interpreter. The ``<spec>`` can be:
 
 - **A version string** (e.g., ``python3.8``, ``pypy3``). ``virtualenv`` will search for any interpreter that matches this version.
+- **A PEP 440 version specifier** (e.g., ``>=3.12``, ``<=3.12,!=3.12.1``). ``virtualenv`` evaluates all discovered interpreters and picks the first one that satisfies the constraint set.
 - **An absolute path** (e.g., ``/usr/bin/python3.8``). This is a *strict* requirement. Only the interpreter at this exact path will be used. If it does not exist or is not a valid interpreter, creation will fail.
 
 **``--try-first-with <path>``: The Hint**
@@ -65,6 +66,14 @@ This flag provides a path to a Python executable to check *before* ``virtualenv`
       virtualenv --python /usr/bin/python3.8 --try-first-with /usr/bin/python3.10 my-env
 
    - **Result:** The rule is strictly ``/usr/bin/python3.8``. ``virtualenv`` checks the ``/usr/bin/python3.10`` hint, sees the path doesn't match, and **rejects it**. It then moves on to test ``/usr/bin/python3.8`` and successfully creates the environment.
+
+3. **Pick the newest interpreter that satisfies a version constraint:**
+
+   .. code-block:: bash
+
+      virtualenv --python ">=3.11" my-env
+
+   - **Result:** ``virtualenv`` selects the first interpreter on the system that meets the ``>=3.11`` rule, preferring higher versions when multiple match.
 
 This approach ensures that the behavior is predictable and that ``--python`` remains the definitive source of truth for the user's intent.
 

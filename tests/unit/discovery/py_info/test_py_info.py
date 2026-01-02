@@ -101,6 +101,22 @@ def test_satisfy_not_threaded():
     assert matches is False
 
 
+def test_satisfy_version_specifier():
+    spec = PythonSpec.from_string_spec(
+        f">={CURRENT.version_info.major}.{CURRENT.version_info.minor}",
+    )
+    matches = CURRENT.satisfies(spec, True)
+    assert matches is True
+
+
+def test_satisfy_version_specifier_nok():
+    spec = PythonSpec.from_string_spec(
+        f">{CURRENT.version_info.major}.{CURRENT.version_info.minor}.{CURRENT.version_info.micro}",
+    )
+    matches = CURRENT.satisfies(spec, True)
+    assert matches is False
+
+
 def _generate_not_match_current_interpreter_version():
     result = []
     for i in range(3):
