@@ -18,7 +18,7 @@ except ModuleNotFoundError:  # pragma: no cover - fallback for non-site virtual 
     from packaging.version import InvalidVersion, Version
 
 PATTERN = re.compile(r"^(?P<impl>[a-zA-Z]+)?(?P<version>[0-9.]+)?(?P<threaded>t)?(?:-(?P<arch>32|64))?$")
-SPECIFIER_PATTERN = re.compile(r"^(?P<impl>[A-Za-z]+)?\s*(?P<spec>(?:===|==|~=|!=|<=|>=|<|>).+)$")
+SPECIFIER_PATTERN = re.compile(r"^(?:(?P<impl>[A-Za-z]+)\s*)?(?P<spec>(?:===|==|~=|!=|<=|>=|<|>).+)$")
 
 
 class PythonSpec:
