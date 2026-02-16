@@ -109,7 +109,12 @@ def test_powershell(activation_tester_class, activation_tester, monkeypatch):
             self.script_encoding = "utf-8-sig"
 
         def _get_test_lines(self, activate_script):
-            return super()._get_test_lines(activate_script)
+            # Set UTF-8 encoding so PowerShell correctly decodes native command (Python) output
+            # that contains non-ASCII characters (e.g. in VIRTUAL_ENV_PROMPT)
+            return [
+                "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8",
+                *super()._get_test_lines(activate_script),
+            ]
 
         def invoke_script(self):
             return [self.cmd, "-File"]

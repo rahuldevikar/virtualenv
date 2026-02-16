@@ -1,0 +1,4 @@
+Fix PowerShell ``activate.ps1`` reading ``pyvenv.cfg`` with wrong encoding on Windows by adding ``-Encoding UTF8``
+to ``Get-Content``, which caused ``VIRTUAL_ENV_PROMPT`` to be garbled when the virtualenv path contains non-ASCII
+Unicode characters (e.g. ``Ömer``). Also enable activation tests to verify non-ASCII Unicode paths on Windows, and add
+``chcp 65001`` to batch test scripts so ``cmd.exe`` correctly parses UTF-8 encoded paths - by :user:`radevika`.

@@ -107,7 +107,8 @@ def test_batch(activation_tester_class, activation_tester, tmp_path):
             self.unix_line_ending = False
 
         def _get_test_lines(self, activate_script):
-            return ["@echo off", *super()._get_test_lines(activate_script)]
+            # chcp 65001 is needed so cmd.exe can parse UTF-8 encoded paths with non-ASCII characters
+            return ["@echo off", "chcp 65001 1>NUL", *super()._get_test_lines(activate_script)]
 
         def quote(self, s):
             if '"' in s or " " in s:
@@ -146,6 +147,7 @@ def test_batch_output(activation_tester_class, activation_tester, tmp_path):
             intermediary_script_path = str(tmp_path / "intermediary.bat")
             activate_script_quoted = self.quote(str(activate_script))
             return [
+                "@chcp 65001 1>NUL",
                 "@echo on",
                 f"@echo @call {activate_script_quoted} > {intermediary_script_path}",
                 f"@echo @echo >> {intermediary_script_path}",

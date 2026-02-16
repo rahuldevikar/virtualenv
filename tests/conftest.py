@@ -286,8 +286,7 @@ def special_char_name():
         # get rid of invalid characters on Windows
         base = base.replace('"', "")
         base = base.replace(";", "")
-    # workaround for pypy3 https://bitbucket.org/pypy/pypy/issues/3147/venv-non-ascii-support-windows
-    encoding = "ascii" if IS_WIN else sys.getfilesystemencoding()
+    encoding = sys.getfilesystemencoding()
     # let's not include characters that the file system cannot encode)
     result = ""
     for char in base:
