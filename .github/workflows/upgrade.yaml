@@ -10,7 +10,7 @@ permissions:
 jobs:
   upgrade:
     name: 🔄 Upgrade embedded pip/setuptools/wheel
-    if: github.repository_owner == 'pypa'
+    if: true # TODO: restore to github.repository_owner == 'pypa' before upstream PR
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -34,11 +34,11 @@ jobs:
           tox run -e upgrade
           if [ -n "$(git diff --name-only)" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "### 📦 Embedded dependency changes" >> "$GITHUB_STEP_SUMMARY"
+            echo "### Embedded dependency changes" >> "$GITHUB_STEP_SUMMARY"
             git diff --stat >> "$GITHUB_STEP_SUMMARY"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "### ✅ All embedded dependencies are up to date" >> "$GITHUB_STEP_SUMMARY"
+            echo "### All embedded dependencies are up to date" >> "$GITHUB_STEP_SUMMARY"
           fi
       - name: 📝 Create Pull Request
         if: steps.upgrade.outputs.changed == 'true'
