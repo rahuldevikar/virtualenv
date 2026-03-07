@@ -1,0 +1,1 @@
+Fix bash ``activate`` script relocation fallback using ``${BASH_SOURCE[0]}`` instead of ``$0``, which resolves to the shell binary when the script is sourced - by :user:`rahuldevikar`.
